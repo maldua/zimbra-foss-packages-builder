@@ -1,0 +1,33 @@
+# vi:ft=dockerfile
+FROM ubuntu:20.04
+
+ARG ZIMBRA_BUILDER_UID
+ARG ZIMBRA_BUILDER_GID
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# SYSTEM
+RUN apt-get -qq update
+RUN apt-get -qq dist-upgrade -y
+RUN apt-get -qq autoremove -y
+RUN apt-get -qq install -y m4 libpcre3-dev
+
+# ENVIRONMENT
+RUN apt-get -qq install -y git
+RUN apt-get -qq install -y locales
+RUN locale-gen en_US.UTF-8
+
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
+# USER
+RUN groupadd --gid ${ZIMBRA_BUILDER_GID} build \
+    && useradd --uid ${ZIMBRA_BUILDER_UID} --gid ${ZIMBRA_BUILDER_GID} -m build \
+    && echo build ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/build \
+    && chmod 0440 /etc/sudoers.d/build \
+    && mkdir -p /home/build/packages-build \
+    && chown -R ${ZIMBRA_BUILDER_UID}:${ZIMBRA_BUILDER_GID} /home/build
+
+USER build
+WORKDIR /home/build
