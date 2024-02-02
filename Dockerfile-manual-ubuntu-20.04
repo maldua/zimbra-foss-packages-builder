@@ -16,6 +16,7 @@ RUN apt-get -qq install -y m4 libpcre3-dev
 # ENVIRONMENT
 RUN apt-get -qq install -y git
 RUN apt-get -qq install -y build-essential
+RUN apt-get -qq install -y lsb-release
 RUN apt-get -qq install -y locales
 RUN locale-gen en_US.UTF-8
 
