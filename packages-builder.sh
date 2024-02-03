@@ -1,5 +1,6 @@
 #!/bin/bash
 
+BUILD_PLATFORM=$(./zimbra-package-stub/bin/get_plat_tag.sh)
 cd packages
 build_pwd="$(pwd)"
 build_number=0
@@ -27,7 +28,7 @@ do
 
         # Actual build
         if make all > ${build_pwd}/${make_all_log_file} 2>&1 ; then
-          cp build/UBUNTU20_64/*deb /var/local/repo
+          cp build/${BUILD_PLATFORM}/*deb /var/local/repo
           cd /var/local/repo && dpkg-scanpackages . /dev/null 2> ${build_pwd}/${dpkg_scanpackages_log_file} | gzip -9c > Packages.gz
           sudo apt-get -qq update
         else
