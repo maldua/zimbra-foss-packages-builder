@@ -29,7 +29,7 @@ do
         if make all > ${build_pwd}/${make_all_log_file} 2>&1 ; then
           cp build/UBUNTU20_64/*deb /var/local/repo
           cd /var/local/repo && dpkg-scanpackages . /dev/null 2> ${build_pwd}/${dpkg_scanpackages_log_file} | gzip -9c > Packages.gz
-          apt-get -qq update
+          sudo apt-get -qq update
         else
           echo "ERROR. ${comp} failed. Please check: '${make_all_log_file}' inside 'packages'."
           cd "${build_pwd}"
