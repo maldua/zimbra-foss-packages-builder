@@ -110,7 +110,15 @@ cd packages-build
 git clone --depth 1 --branch 10.0.0-GA git@github.com:Zimbra/packages.git
 git clone --depth 1 git@github.com:Zimbra/zimbra-build.git
 git clone --depth 1 git@github.com:Zimbra/zimbra-package-stub.git
+```
 
+This is a workaround needed for 10.0.0-GA tag and also for develop branch in 2024 02 03. It might not be needed in the future:
+```
+sed -i 's~http://download.savannah.gnu.org/releases/freetype/\$~http://download.savannah.gnu.org/releases/freetype/freetype-old/\$~g' packages/thirdparty/freetype/Makefile
+```
+
+Build launch:
+```
 /usr/local/zimbra-foss-packages-builder/packages-builder.sh
 ```
 
