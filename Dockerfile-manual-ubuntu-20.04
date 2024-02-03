@@ -14,6 +14,7 @@ RUN apt-get -qq install -y apt-utils
 RUN apt-get -qq install -y curl wget
 RUN apt-get -qq install -y debhelper
 RUN apt-get -qq install -y m4 libpcre3-dev
+RUN apt-get -qq install -y sudo
 
 # ENVIRONMENT
 RUN apt-get -qq install -y git
