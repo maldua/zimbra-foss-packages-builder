@@ -72,6 +72,48 @@ Then upload the `id_rsa.pub` key to your GitHub profile: [https://github.com/set
 
 Note: I personally only use an additional Github account because you cannot set this SSH key as a read-only one. You are supposed to use a deploy key but those are attached to a single repo or organisation.
 
+### Manual build example
+
+* Builder setup
+
+```
+git clone https://github.com/maldua/zimbra-foss-packages-builder
+cd zimbra-foss-packages-builder
+```
+
+```
+docker build \
+  --build-arg ZIMBRA_BUILDER_UID=$(id -u) \
+  --build-arg ZIMBRA_BUILDER_GID=$(id -g) \
+  --tag zimbra-manual-ubuntu-20.04-packages-builder . \
+  -f Dockerfile-manual-ubuntu-20.04
+```
+
+* Enter onto the zimbra packages builder
+
+```
+docker run \
+  -it \
+  --env ZIMBRA_BUILDER_UID=$(id -u) \
+  --env ZIMBRA_BUILDER_GID=$(id -g) \
+  -v ~/.ssh:/home/build/.ssh:ro \
+  -v $(pwd):/usr/local/zimbra-foss-packages-builder:ro \
+  -v $(pwd)/repo:/var/local/repo:rw \
+  zimbra-manual-ubuntu-20.04-packages-builder:latest
+```
+
+* Actual build inside of the docker
+
+```
+cd packages-build
+
+git clone --depth 1 --branch 10.0.0-GA git@github.com:Zimbra/packages.git
+git clone --depth 1 git@github.com:Zimbra/zimbra-build.git
+git clone --depth 1 git@github.com:Zimbra/zimbra-package-stub.git
+
+/usr/local/zimbra-foss-packages-builder/packages-builder.sh
+```
+
 ## Similar projects
 
 - [ianw1974's zimbra-build-scripts](https://github.com/ianw1974/zimbra-build-scripts)
