@@ -11,6 +11,7 @@ RUN apt-get -qq update
 RUN apt-get -qq dist-upgrade -y
 RUN apt-get -qq autoremove -y
 RUN apt-get -qq install -y apt-utils
+RUN apt-get -qq install -y curl wget
 RUN apt-get -qq install -y debhelper
 RUN apt-get -qq install -y m4 libpcre3-dev
 
