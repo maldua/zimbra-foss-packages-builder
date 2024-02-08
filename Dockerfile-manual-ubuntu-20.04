@@ -26,6 +26,9 @@ RUN locale-gen en_US.UTF-8
 # thirdparty/php non documented dependencies
 RUN apt-get -qq install -y pkg-config libxml2-dev libsqlite3-dev
 
+# thirdparty/mariadb non documented dependencies
+RUN apt-get -qq install -y cmake libcrack2-dev libpam0g-dev
+
 # REPO
 RUN mkdir -p /var/local/repo
 RUN echo 'deb [trusted=yes] file:/var/local/repo ./' > /etc/apt/sources.list.d/localrepo.list
